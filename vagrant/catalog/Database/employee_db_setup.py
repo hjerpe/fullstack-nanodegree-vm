@@ -10,7 +10,7 @@ Base = declarative_base()
 class Employee(Base):
 	__tablename__ = 'employee'
 	name = Column(String(250), nullable=False)
-	id = column(Integer, primary_key=True)
+	id = Column(Integer, primary_key=True)
 
 
 class Address(Base):
@@ -19,10 +19,8 @@ class Address(Base):
 	street = Column(String(80), nullable=False)
 	zip = Column(String(5), nullable=False)
 	id = Column(Integer, primary_key=True)
-	employee_id = Column(Integer, ForeingKey('employee_id'))
+	employee_id = Column(Integer, ForeignKey('employee.id'))
 
-	employee = relationship(Address)
-
-
+	employee = relationship(Employee)
 engine = create_engine('sqlite:///employeeData.db')
 Base.metadata.create_all(engine)
