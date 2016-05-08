@@ -1,3 +1,6 @@
+# Complied files
+####################
+*.pyc
 # Auto save
 ####################
 *~
@@ -5,4 +8,5 @@
 *.swp
 
 # Vagrant config files
+####################
 vagrant/.vagrant
