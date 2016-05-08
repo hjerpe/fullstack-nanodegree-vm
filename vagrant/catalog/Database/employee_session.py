@@ -18,8 +18,8 @@ for employee in employees:
     print employee.name
 
 
-mark = session.query(Employee).filter_by(name='John Andersson').first()
-session.delete(mark)
+andersson = session.query(Employee).filter_by(name='John Andersson').first()
+session.delete(andersson)
 session.commit()
 
 # Read employees
