@@ -13,10 +13,10 @@ class webserverHandler(BaseHTTPRequestHandler):
 
                 output = "<html><body>"
                 output += "<h1>Hello!</h1>"
-                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'>''' +\
-                        '''<h2>What would you like me to say?</h2>''' +\ 
-                        '''<input name="message" type="text" >''' +\ 
-                        '''<input type="submit" value="Submit"> </form>'''
+                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'>
+                        <h2>What would you like me to say?</h2> 
+                        <input name="message" type="text" >  
+                        <input type="submit" value="Submit"> </form>'''
                 output += "</body></html>"
 
                 self.wfile.write(output)
@@ -29,10 +29,10 @@ class webserverHandler(BaseHTTPRequestHandler):
 
                 output = "<html><body>"
                 output += "<h1>Tj&#228;na! <a href = '/hello'></br>Back to Hello</a></h1>"
-                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'>''' +\
-                        '''<h2>What would you like me to say?</h2>''' +\ 
-                        '''<input name="message" type="text" >''' +\
-                                '''<input type="submit" value="Submit"> </form>'''
+                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'> 
+                        <h2>What would you like me to say?</h2> 
+                        <input name="message" type="text" >
+                                <input type="submit" value="Submit"> </form>'''
                 output += "</body></html>"
 
                 self.wfile.write(output)
