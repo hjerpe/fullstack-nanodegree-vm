@@ -1,5 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
+from Database.get_table_names import arr_table_names
 
 
 class webserverHandler(BaseHTTPRequestHandler):
@@ -37,6 +38,27 @@ class webserverHandler(BaseHTTPRequestHandler):
 
                 self.wfile.write(output)
                 print(output)
+
+            elif self.path.endswith("/tablenames"):
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+
+                output = "<html><body>"
+                output += "<h1>Tj&#228;na! <a href = '/hello'></br>Back to Hello</a></h1>"
+                output += "</br>"
+                print(arr_table_names())
+                output += "<id>" + "\n".join(arr_table_names()) + "</id>"
+                output += '</br>'
+                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'> 
+                        <h2>What would you like me to say?</h2> 
+                        <input name="message" type="text" >
+                                <input type="submit" value="Submit"> </form>'''
+                output += "</body></html>"
+
+                self.wfile.write(output)
+                print(output)
+
             return
 
         except IOError:
