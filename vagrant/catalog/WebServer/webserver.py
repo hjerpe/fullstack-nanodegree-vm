@@ -1,6 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import cgi
 from Database.get_table_names import arr_table_names
+import cgi
+from get_connection_string import get_connection_string
 
 
 class webserverHandler(BaseHTTPRequestHandler):
@@ -47,8 +48,9 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output = "<html><body>"
                 output += "<h1>Tj&#228;na! <a href = '/hello'></br>Back to Hello</a></h1>"
                 output += "</br>"
-                print(arr_table_names())
-                output += "<id>" + "\n".join(arr_table_names()) + "</id>"
+                con_string = get_connection_string()
+                print(arr_table_names(con_string))
+                output += "<id>" + "</br>".join(arr_table_names(con_string)) + "</id>"
                 output += '</br>'
                 output += '''<form method='POST' enctype='multipart/form-data' action='/hello'> 
                         <h2>What would you like me to say?</h2> 
