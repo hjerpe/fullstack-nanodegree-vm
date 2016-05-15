@@ -17,4 +17,4 @@ class TableHandler:
         self.table_def = Puppy
 
     def get_row_names(self):
-        return map(lambda row: row.name, self.session.query(self.table_def).all())
+        return [row.name for row in self.session.query(self.table_def).all()]

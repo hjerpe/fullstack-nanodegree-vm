@@ -51,8 +51,9 @@ class webserverHandler(BaseHTTPRequestHandler):
                 con_string = get_connection_string()
                 tableHandler = TableHandler(con_string)
                 print(tableHandler.get_row_names())
-                output += "<id>" + "</br>".join(tableHandler.get_row_names()) + "</id>"
-                output += '</br>'
+
+                for name in tableHandler.get_row_names():
+                    output += '<id>{name}</id></br>'.format(name=name)
                 output += '''<form method='POST' enctype='multipart/form-data' action='/hello'> 
                         <h2>What would you like me to say?</h2> 
                         <input name="message" type="text" >
