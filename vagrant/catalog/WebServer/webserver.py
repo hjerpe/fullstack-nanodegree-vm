@@ -47,17 +47,18 @@ class webserverHandler(BaseHTTPRequestHandler):
 
                 output = "<html><body>"
                 output += "<h1>Tj&#228;na! <a href = '/hello'></br>Back to Hello</a></h1>"
-                output += "</br>"
-                con_string = get_connection_string()
-                tableHandler = TableHandler(con_string)
-                print(tableHandler.get_row_names())
+                output += '<table><tr><th>Resturant</th></tr>'
+                tableHandler = TableHandler(get_connection_string())
+                form_string = '''
+                <form method='POST' enctype='multipart/form-data' action='/tablenames'> 
+                        <input name="message" type="text" > 
+                        <input type="submit" value="Submit"> </form>'''
 
                 for name in tableHandler.get_row_names():
-                    output += '<id>{name}</id></br>'.format(name=name)
-                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'> 
-                        <h2>What would you like me to say?</h2> 
-                        <input name="message" type="text" >
-                                <input type="submit" value="Submit"> </form>'''
+                    output += '<tr><td>{name}</td><td>{form}</td></tr>'.\
+                            format(name=name,
+                                    form=form_string)
+                output += '</table>'
                 output += "</body></html>"
 
                 self.wfile.write(output)
