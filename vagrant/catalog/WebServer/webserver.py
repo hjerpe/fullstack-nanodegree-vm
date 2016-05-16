@@ -4,6 +4,13 @@ from get_connection_string import get_connection_string
 import cgi
 
 
+def get_form_string(ind):
+    op_string = "<form method='POST' enctype='multipart/form-data'"
+    op_string += ''' action='/tablenames'> <input name="message%s" type="text" > 
+                        <input type="submit" value="Submit"> </form>''' % (ind)
+    return op_string
+
+
 class webserverHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -49,20 +56,15 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output += "<h1>Tj&#228;na! <a href = '/hello'></br>Back to Hello</a></h1>"
                 output += '<table><tr><th>Resturant</th></tr>'
                 tableHandler = TableHandler(get_connection_string())
-                form_string = '''
-                <form method='POST' enctype='multipart/form-data' action='/tablenames'> 
-                        <input name="message" type="text" > 
-                        <input type="submit" value="Submit"> </form>'''
 
-                for name in tableHandler.get_row_names():
+                for ind, name in enumerate(tableHandler.get_row_names()):
                     output += '<tr><td>{name}</td><td>{form}</td></tr>'.\
                             format(name=name,
-                                    form=form_string)
+                                    form=get_form_string(ind))
                 output += '</table>'
                 output += "</body></html>"
 
                 self.wfile.write(output)
-                print(output)
 
             return
 
@@ -76,11 +78,24 @@ class webserverHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-            print(pdict)
+            print('ctype: %s' % ctype)
+            print('pdict %s' % pdict)
+
+            form = cgi.FieldStorage()
+            print('form {f}'.format(f=form))
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile, pdict)
-                messagecontent = fields.get('message')
+                key = fields.keys()[0]
+                if key[-1].isdigit():
+                    arr_ind = key[-1]
+                    print('index to alter db row found')
 
+                messagecontent = fields.get(key)
+                print('fields: %s' % fields)
+                print('inside ctype')
+                print(messagecontent)
+
+            print('outside ctype')
             output = "<html><body>"
             output += "<h2> As you wish! </h2>"
             output += "<h1> %s </h1>" % messagecontent[0]
