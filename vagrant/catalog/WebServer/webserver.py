@@ -6,8 +6,10 @@ import cgi
 
 def get_form_string(ind):
     op_string = "<form method='POST' enctype='multipart/form-data'"
-    op_string += ''' action='/tablenames'> <input name="message%s" type="text" > 
-                        <input type="submit" value="Submit"> </form>''' % (ind)
+    op_string += ''' action='/tablenames'> <input name="message" type="text" > 
+                        <input type="submit" value="Submit"> 
+                        <input type="hidden" name="primary_key" value= %s >
+                        </form>''' % (ind)
     return op_string
 
 
@@ -86,9 +88,9 @@ class webserverHandler(BaseHTTPRequestHandler):
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile, pdict)
                 key = fields.keys()[0]
-                if key[-1].isdigit():
-                    arr_ind = key[-1]
-                    print('index to alter db row found')
+                if 'primary_key' in fields:
+                    value = fields['primary_key'][0]
+                    print('primary key to alter db row found: %s' % value)
 
                 messagecontent = fields.get(key)
                 print('fields: %s' % fields)
