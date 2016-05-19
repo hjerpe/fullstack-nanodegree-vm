@@ -18,3 +18,11 @@ class TableHandler:
 
     def get_row_names(self):
         return [row.name for row in self.session.query(self.table_def).all()]
+
+    def get_ids(self):
+        return [row.id for row in self.session.query(self.table_def).all()] 
+
+    def update_name(self, value, db_id):
+        self.session.query(self.table_def).filter(self.table_def.id == db_id).\
+                update({"name": value})
+        self.session.commit()
